@@ -5,9 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"={"offer:output"}},
+ *      denormalizationContext={"groups"={"offer:input"}}
+ * )
  * @ORM\Entity(repositoryClass=OfferRepository::class)
  */
 class Offer
@@ -16,16 +20,22 @@ class Offer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups({ "offer:output" })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups({"offer:output", "offer:input"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * 
+     * @Groups({"offer:output", "offer:input"})
      */
     private $description;
 
