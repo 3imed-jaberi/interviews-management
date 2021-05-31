@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * )
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
+ * @ORM\Table(name="`users`")
  */
 class User implements UserInterface
 {

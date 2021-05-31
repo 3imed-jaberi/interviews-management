@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      denormalizationContext={"groups"={"offer:input"}}
  * )
  * @ORM\Entity(repositoryClass=OfferRepository::class)
+ * @ORM\Table(name="`offers`")
  */
 class Offer
 {
