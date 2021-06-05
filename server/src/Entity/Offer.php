@@ -30,6 +30,11 @@ class Offer
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $published;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,6 +60,18 @@ class Offer
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPublished(): ?\DateTimeInterface
+    {
+        return $this->published;
+    }
+
+    public function setPublished(\DateTimeInterface $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }

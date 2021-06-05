@@ -29,6 +29,11 @@ class Candidature
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $published;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,6 +47,18 @@ class Candidature
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPublished(): ?\DateTimeInterface
+    {
+        return $this->published;
+    }
+
+    public function setPublished(\DateTimeInterface $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }
