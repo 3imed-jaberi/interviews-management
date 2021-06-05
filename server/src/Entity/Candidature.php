@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\CandidatureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -46,10 +49,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Candidature implements AuthoredEntityInterface, PublishedDateEntityInterface
 {
     /**
-     * TODO: add resume (CV)
-     */
-
-    /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -83,6 +82,19 @@ class Candidature implements AuthoredEntityInterface, PublishedDateEntityInterfa
      * @Groups({"post"})
      */
     private $offer;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Image")
+     * @ORM\JoinTable()
+     * @ApiSubresource()
+     * @Groups({"post"})
+     */
+    private $resumes;
+
+    public function __construct()
+    {
+        $this->resumes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,5 +153,20 @@ class Candidature implements AuthoredEntityInterface, PublishedDateEntityInterfa
         $this->offer = $offer;
 
         return $this;
+    }
+
+    public function getResumes(): Collection
+    {
+        return $this->resumes;
+    }
+
+    public function addResume(Image $image)
+    {
+        $this->resumes->add($image);
+    }
+
+    public function removeResume(Image $image)
+    {
+        $this->resumes->removeElement($image);
     }
 }
