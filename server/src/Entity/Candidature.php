@@ -169,4 +169,9 @@ class Candidature implements AuthoredEntityInterface, PublishedDateEntityInterfa
     {
         $this->resumes->removeElement($image);
     }
+
+    public function __toString()
+    {
+        return $this->status;
+    }
 }

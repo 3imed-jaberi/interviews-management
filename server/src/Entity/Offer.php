@@ -194,4 +194,9 @@ class Offer implements AuthoredEntityInterface, PublishedDateEntityInterface
     {
         return $this->candidatures;
     }
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
 }
