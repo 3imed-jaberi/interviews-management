@@ -3,48 +3,88 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *      itemOperations={"get"},
- *      collectionOperations={"post"} 
+ *     itemOperations={
+ *         "get"={
+ *             "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *             "normalization_context"={
+ *                 "groups"={"get"}
+ *             }
+ *         },
+ *         "put"={
+ *             "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *             "denormalization_context"={
+ *                 "groups"={"put"}
+ *             },
+ *             "normalization_context"={
+ *                 "groups"={"get"}
+ *             }
+ *         },
+ *     },
+ *     collectionOperations={
+ *         "post"={
+ *             "denormalization_context"={
+ *                 "groups"={"post"}
+ *             },
+ *             "normalization_context"={
+ *                 "groups"={"get"}
+ *             },
+ *             "validation_groups"={"post"}
+ *         }
+ *     }
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`users`")
- * @UniqueEntity("username", errorPath="username")
- * @UniqueEntity("email")
+ * @UniqueEntity("username", errorPath="username", groups={"post"})
+ * @UniqueEntity("email", groups={"post"})
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
+    /**
+     * Roles
+     */
+    const ROLE_RECRUITER = 'ROLE_RECRUITER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_CANDIDATE = 'ROLE_CANDIDATE';
+
+    const DEFAULT_ROLES = [self::ROLE_CANDIDATE];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"get", "get-offer-with-author", "get-candidature-with-author"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"get", "post", "get-candidature-with-author", "get-offer-with-author"})
      * @Assert\NotBlank()
      * @Assert\Length(min=6, max=180)
      */
     private $username;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="simple_array", length=200)
+     * @Groups({"get-admin", "get-owner"})
      */
-    private $roles = [];
+    private $roles;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string", length=255)
+     * @Groups({"post"})
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
@@ -65,6 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"post", "put", "get-admin", "get-owner"})
      * @Assert\NotBlank()
      * @Assert\Email()
      * @Assert\Length(min=3, max=255)
@@ -73,16 +114,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Offer", mappedBy="author")
+     * @Groups({"get"})
      */
     private $offers;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Candidature", mappedBy="author")
+     * @Groups({"get"})
      */
     private $candidatures;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"get", "post", "put", "get-candidature-with-author", "get-offer-with-author"})
      * @Assert\NotBlank()
      * @Assert\Length(min=3, max=255)
      */
@@ -90,6 +134,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"get", "post", "put", "get-candidature-with-author", "get-offer-with-author"})
      * @Assert\NotBlank()
      * @Assert\Length(min=4, max=255)
      */
@@ -99,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->offers = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
-        // $this->roles = self::DEFAULT_ROLES;
+        $this->roles = self::DEFAULT_ROLES;
         // $this->enabled = false;
         // $this->confirmationToken = null;
     }
@@ -150,9 +195,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): string
     {
         return $this->password;

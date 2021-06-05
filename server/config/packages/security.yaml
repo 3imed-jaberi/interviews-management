@@ -19,7 +19,7 @@ security:
     api:
       pattern: ^/api/
       stateless: true
-      anonymous: true
+      # anonymous: true
       json_login:
         check_path: /api/login #login_check
         # username_path: username

@@ -3,48 +3,85 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={
+ *         "get"={
+ *             "normalization_context"={
+ *                 "groups"={"get-offer-with-author"}
+ *             }
+ *          },
+ *         "put"={
+ *             "access_control"="is_granted('ROLE_ADMIN') or (is_granted('ROLE_RECRUITER') and object.getAuthor() == user)"
+ *         }
+ *      },
+ *      collectionOperations={
+ *          "get",
+ *          "post"={
+ *              "access_control"="is_granted('ROLE_RECRUITER')",
+ *              "normalization_context"={
+ *                  "groups"={"get"}
+ *              }
+ *      },
+ *      denormalizationContext={
+ *         "groups"={"post"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=OfferRepository::class)
  * @ORM\Table(name="`offers`")
  */
-class Offer
+class Offer implements AuthoredEntityInterface, PublishedDateEntityInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"get-offer-with-author"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5)
+     * @Groups({"post", "get-offer-with-author"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=20)
+     * @Groups({"get-offer-with-author"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
+     * @Assert\DateTime()
+     * @Groups({"get-offer-with-author"})
      */
     private $published;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="offers")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"get-offer-with-author"})
      */
     private $author;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Candidature", mappedBy="offer")
+     * @Groups({"get-offer-with-author"}) 
      */
     private $candidatures;
 
@@ -87,7 +124,7 @@ class Offer
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    public function setPublished(\DateTimeInterface $published): PublishedDateEntityInterface
     {
         $this->published = $published;
 

@@ -6,13 +6,44 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CandidatureRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     attributes={
+ *         "order"={"published": "DESC"},
+ *         "pagination_client_enabled"=true,
+ *         "pagination_client_items_per_page"=true
+ *     },
+ *     itemOperations={
+ *         "get",
+ *         "put"={
+ *             "access_control"="is_granted('ROLE_RECRUITER') or (is_granted('ROLE_CANDIDATE') and object.getAuthor() == user)"
+ *         }
+ *     },
+ *     collectionOperations={
+ *         "get",
+ *         "post"={
+ *             "access_control"="is_granted('ROLE_CANDIDATE')",
+ *             "normalization_context"={
+ *                 "groups"={"get-candidature-with-author"}
+ *             }
+ *         },
+ *         "api_blog_posts_comments_get_subresource"={
+ *             "normalization_context"={
+ *                 "groups"={"get-candidature-with-author"}
+ *             }
+ *         }
+ *     },
+ *     denormalizationContext={
+ *         "groups"={"post"}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass=CandidatureRepository::class)
  * @ORM\Table(name="`candidatures`")
  */
-class Candidature
+class Candidature implements AuthoredEntityInterface, PublishedDateEntityInterface
 {
     /**
      * TODO: add resume (CV)
@@ -22,28 +53,34 @@ class Candidature
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"get-candidature-with-author"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Groups({"post", "get-candidature-with-author"})
+     * @Assert\NotBlank()
      */
     private $status;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"get-candidature-with-author"})
      */
     private $published;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="candidatures")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"get-candidature-with-author"})
      */
     private $author;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Offer", inversedBy="candidatures")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"post"})
      */
     private $offer;
 
@@ -69,7 +106,7 @@ class Candidature
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    public function setPublished(\DateTimeInterface $published): PublishedDateEntityInterface
     {
         $this->published = $published;
 
