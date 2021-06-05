@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +43,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Offer", mappedBy="author")
+     */
+    private $offers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Candidature", mappedBy="author")
+     */
+    private $candidatures;
+
+    public function __construct()
+    {
+        $this->offers = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
+        // $this->roles = self::DEFAULT_ROLES;
+        // $this->enabled = false;
+        // $this->confirmationToken = null;
+    }
 
     public function getId(): ?int
     {
@@ -135,4 +155,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCandidaturess(): Collection
+    {
+        return $this->candidatures;
+    }
+
 }
