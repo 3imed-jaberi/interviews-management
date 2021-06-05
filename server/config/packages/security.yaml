@@ -47,3 +47,8 @@ security:
     - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Allows accessing the Swagger UI
     - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY } # IS_AUTHENTICATED_FULLY
+  # ROLE MANAGMENT.
+  # role_hierarchy:
+  #   ROLE_CANDIDATE: ROLE_CANDIDATE
+  #   ROLE_RECRUITER: ROLE_RECRUITER
+  #   ROLE_ADMIN: ROLE_ADMIN
