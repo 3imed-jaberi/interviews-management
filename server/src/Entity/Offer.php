@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\OfferRepository;
@@ -79,8 +80,10 @@ class Offer implements AuthoredEntityInterface, PublishedDateEntityInterface
      */
     private $author;
 
+    // fetch all comments with @ApiSubresource() [populate].
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Candidature", mappedBy="offer")
+     * @ApiSubresource()
      * @Groups({"get-offer-with-author"}) 
      */
     private $candidatures;

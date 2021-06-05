@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *                 "groups"={"get-candidature-with-author"}
  *             }
  *         },
- *         "api_blog_posts_comments_get_subresource"={
+ *         "api_offers_candidatures_get_subresource"={
  *             "normalization_context"={
  *                 "groups"={"get-candidature-with-author"}
  *             }
