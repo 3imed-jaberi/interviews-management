@@ -30,7 +30,10 @@ security:
         failure_handler: lexik_jwt_authentication.handler.authentication_failure
       guard:
         authenticators:
-          - lexik_jwt_authentication.jwt_token_authenticator
+          # - lexik_jwt_authentication.jwt_token_authenticator
+          # use custom impl related to rest password
+          - App\Security\TokenAuthenticator
+
     # main:
     #     lazy: true
     #     provider: app_user_provider

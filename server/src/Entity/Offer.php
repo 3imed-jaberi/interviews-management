@@ -31,6 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              "normalization_context"={
  *                  "groups"={"get"}
  *              }
+ *          }
  *      },
  *      denormalizationContext={
  *         "groups"={"post"}
