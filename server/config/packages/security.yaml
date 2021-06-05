@@ -33,6 +33,7 @@ security:
           # - lexik_jwt_authentication.jwt_token_authenticator
           # use custom impl related to rest password
           - App\Security\TokenAuthenticator
+      user_checker: App\Security\UserEnabledChecker
 
     # main:
     #     lazy: true

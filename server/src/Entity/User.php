@@ -181,13 +181,28 @@ class User implements UserInterface
      */
     private $lastname;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $passwordChangeDate;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $confirmationToken;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
         $this->roles = self::DEFAULT_ROLES;
-        // $this->enabled = false;
-        // $this->confirmationToken = null;
+        $this->enabled = false;
+        $this->confirmationToken = null;
     }
 
     public function getId(): ?int
@@ -352,5 +367,37 @@ class User implements UserInterface
     public function setOldPassword($oldPassword): void
     {
         $this->oldPassword = $oldPassword;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
+    public function getConfirmationToken(): ?string
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken(string $confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+    }
+
+    public function getPasswordChangeDate(): ?int
+    {
+        return $this->passwordChangeDate;
+    }
+
+    public function setPasswordChangeDate(?int $passwordChangeDate): self
+    {
+        $this->passwordChangeDate = $passwordChangeDate;
+
+        return $this;
     }
 }
