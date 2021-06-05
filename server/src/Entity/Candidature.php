@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CandidatureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ApiResource()
@@ -34,6 +35,18 @@ class Candidature
      */
     private $published;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="candidatures")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Offer", inversedBy="candidatures")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $offer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +72,36 @@ class Candidature
     public function setPublished(\DateTimeInterface $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+        /**
+     * @return User
+     */
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param UserInterface $author
+     */
+    public function setAuthor(UserInterface $author): AuthoredEntityInterface
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getOffer(): ?Offer
+    {
+        return $this->offer;
+    }
+
+    public function setOffer(Offer $offer): self
+    {
+        $this->offer = $offer;
 
         return $this;
     }
