@@ -6,7 +6,8 @@ use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Exception\EmptyBodyException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+// use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class EmptyBodySubscriber implements EventSubscriberInterface
@@ -21,7 +22,7 @@ class EmptyBodySubscriber implements EventSubscriberInterface
     ];
   }
 
-  public function handleEmptyBody(GetResponseEvent $event)
+  public function handleEmptyBody(RequestEvent $event)
   {
     $request = $event->getRequest();
     $method = $request->getMethod();
