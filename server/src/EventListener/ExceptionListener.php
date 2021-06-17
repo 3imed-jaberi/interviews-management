@@ -24,7 +24,7 @@ class ExceptionListener
             return;
         }
 
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         if ($exception instanceof InvalidArgumentException &&
             $exception->getPrevious() instanceof ItemNotFoundException) {

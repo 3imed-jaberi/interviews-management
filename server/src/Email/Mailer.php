@@ -18,7 +18,7 @@ class Mailer
 
     public function __construct(
         \Swift_Mailer $mailer,
-        \Twig_Environment $twig
+        \Twig\Environment $twig
     )
     {
         $this->mailer = $mailer;
