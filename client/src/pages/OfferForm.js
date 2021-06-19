@@ -6,6 +6,7 @@ import { createOffer } from "../services/offer.service";
 
 function OfferForm() {
   const history = useHistory()
+
   const {
     values,
     handleChange,
@@ -23,7 +24,6 @@ function OfferForm() {
 
         // history.push(`/offer/${data.id}`)
       }
-
     }
   })
 

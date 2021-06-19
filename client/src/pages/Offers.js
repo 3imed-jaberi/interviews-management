@@ -13,8 +13,6 @@ function Offers() {
         setOffers(data['hydra:member'])
         return
       }
-
-      // error
     }
 
     loadOffers()

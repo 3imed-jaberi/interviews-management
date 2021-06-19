@@ -7,6 +7,7 @@ function CandidatureForm(offerId) {
   const [file, setFile] = useState(null)
   const [content, setContent] = useState('')
 
+
   function _onChange(event) {
     console.log(event.target);
     console.log(event.target.files[0]);
@@ -43,7 +44,6 @@ function CandidatureForm(offerId) {
             value={content}
             onChange={_onTChange}
           />
-
           <ImageUpload onChange={_onChange} />
           <button
             type="submit"
