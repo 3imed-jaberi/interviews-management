@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import { createCandidature, updateCandidature } from "../services/candidature.service";
 import ImageUpload from "./ImageUpload";
+import { Input } from "./Input";
 
-function CandidatureForm() {
-  const [file, setFile] = useState()
+function CandidatureForm(offerId) {
+  const [file, setFile] = useState(null)
+  const [content, setContent] = useState('')
 
   function _onChange(event) {
     console.log(event.target);
@@ -12,8 +14,12 @@ function CandidatureForm() {
     setFile(file)
   }
 
+  function _onTChange(event) {
+    setContent(event.target.value)
+  }
+
   async function _onSubmit() {
-    const [ok, data] = await createCandidature({ status: "PENDIING " })
+    const [ok, data] = await createCandidature({ status: "PENDIING", offerId })
     if (ok) {
       const myFormData = new FormData();
       myFormData.set('file', file)
@@ -30,6 +36,14 @@ function CandidatureForm() {
     <div className="card mb-3 mt-3 shadow-sm">
       <div className="card-body">
         <form onSubmit={_onSubmit}>
+          <Input
+            label='Content:'
+            name="content"
+            type="textarea"
+            value={content}
+            onChange={_onTChange}
+          />
+
           <ImageUpload onChange={_onChange} />
           <button
             type="submit"

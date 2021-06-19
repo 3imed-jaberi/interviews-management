@@ -1,11 +1,11 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
-import ImageUpload from "../components/ImageUpload";
 import { Input } from '../components/Input'
 import { createOffer } from "../services/offer.service";
 
 function OfferForm() {
-
+  const history = useHistory()
   const {
     values,
     handleChange,
@@ -16,13 +16,14 @@ function OfferForm() {
       description: ''
     },
     onSubmit: async values => {
-      const [ok] = await createOffer(values)
-
+      const [ok, data] = await createOffer(values)
+      console.log({ ok });
       if (ok) {
-        // TODO: redirect
+        console.log({ ok, data });
+
+        // history.push(`/offer/${data.id}`)
       }
 
-      // TODO: handle error
     }
   })
 

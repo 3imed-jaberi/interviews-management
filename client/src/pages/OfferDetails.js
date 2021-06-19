@@ -7,23 +7,18 @@ import { getOfferBy } from '../services/offer.service';
 
 function OfferDetails() {
 
-  const [offer, setOffer] = useState({
-    title: 'xxx',
-    description: 'foo',
-    published: '2021-05-13',
-    author: {
-      name: 'yyyy'
-    }
-  })
+  const [offer, setOffer] = useState(null)
 
   const { id } = useParams()
 
   useEffect(() => {
-    async function loadOffer(values) {
+    async function loadOffer() {
+      // console.log(id);
       const [ok, data] = await getOfferBy(id)
-      alert(ok)
+
       if (ok) {
         setOffer(data)
+        return
       }
 
       // TODO: handle error

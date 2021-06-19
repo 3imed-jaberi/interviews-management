@@ -1,9 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom'
 import { Input } from '../components/Input';
 import { useFormik } from 'formik';
 import { login } from '../services/user.service';
 
 function Login() {
+  const history = useHistory();
   const {
     values,
     handleChange,
@@ -18,7 +20,8 @@ function Login() {
 
       if (ok) {
         localStorage.setItem('x-token', data.token)
-        // TODO: redirect to other page
+        history.push('/offers')
+        return
       }
     }
   });

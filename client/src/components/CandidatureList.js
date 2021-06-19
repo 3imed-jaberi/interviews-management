@@ -19,15 +19,16 @@ export function CandidatureList({ candidatureList }) {
       <TransitionGroup>
         {candidatureList.map(candidature => {
           return (
-            <CSSTransition key={candidature.id} timeout={1000} classNames="fade">
+            <CSSTransition key={candidature.id} timeout={2000} classNames="fade">
               <div className="card-body border-bottom">
-                <p className="card-text mb-0">
+                <h3 className="card-text mb-0">
                   {candidature.status}
-                </p>
+                </h3>
+                <p>{candidature.content}</p>
                 <p className="card-text">
                   <small className="text-muted">
                     {timeago.format(candidature.published)} by&nbsp;
-                    {candidature.author.name}
+                    {candidature.author.fullname}
                   </small>
                 </p>
               </div>

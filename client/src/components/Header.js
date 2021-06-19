@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { isAuthenticated } from '../utils/is-auth.util';
 
-export default function Header({ logout }) {
+export default function Header() {
   const [isAuth, setIsAuth] = useState()
+  const history = useHistory()
+
+  const logout = () => {
+    localStorage.clear()
+    setIsAuth(false)
+    setTimeout(() => {
+      history.push('/login')
+    }, 500)
+  }
 
   useEffect(() => {
     setIsAuth(isAuthenticated())
   }, [])
 
   function renderUser() {
-    const userData = localStorage.getItem('user-payload')
+    const userData = JSON.parse(localStorage.getItem('user-payload'))
     if (!userData) {
       return (<i className="fas fa-spinner fa-spin" />)
     }
