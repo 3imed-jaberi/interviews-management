@@ -22,7 +22,7 @@ export async function getCandidaturesRelatedToOfferBy(id) {
     // send token to save on backend 
     const response = await request({
       method: 'GET',
-      url: `/api/offers/${id}/candidatures`
+      url: `/offers/${id}/candidatures`
     })
       .then(response => response.data)
 

@@ -50,6 +50,8 @@ class UserAttributeNormalizer
 
     private function isUserHimself($object)
     {
+        if (!$this->tokenStorage->getToken())
+            return false;
         return $object->getUsername() === $this->tokenStorage->getToken()->getUsername();
     }
 

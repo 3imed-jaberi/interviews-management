@@ -64,7 +64,7 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
  *      collectionOperations={
  *          "get",
  *          "post"={
- *              "access_control"="is_granted('ROLE_RECRUITER')",
+ *              "access_control"="is_granted('ROLE_RECRUITER') or is_granted('ROLE_ADMIN')",
  *              "normalization_context"={
  *                  "groups"={"get"}
  *              }

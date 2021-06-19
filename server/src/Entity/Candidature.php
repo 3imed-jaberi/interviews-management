@@ -91,6 +91,12 @@ class Candidature implements AuthoredEntityInterface, PublishedDateEntityInterfa
      */
     private $resumes;
 
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     */
+    private $content;
+
     public function __construct()
     {
         $this->resumes = new ArrayCollection();
@@ -173,5 +179,17 @@ class Candidature implements AuthoredEntityInterface, PublishedDateEntityInterfa
     public function __toString()
     {
         return $this->status;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
     }
 }

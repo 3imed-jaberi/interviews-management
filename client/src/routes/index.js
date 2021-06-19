@@ -8,18 +8,21 @@ import Offers from '../pages/Offers'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 
-const Routes = () => (
-  <Router>
-    <Header isAuthenticated={false} userData={{}} logout={() => { }} />
-    <Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/offer-form" component={OfferForm} />
-      <Route path="/offer/:id" component={OfferDetails} />
-      <Route path="/:page?" component={Offers} />
-    </Switch>
-  </Router>
-);
+import { ProtectedRoute } from './ProtectedRoute'
 
+const Routes = () => {
+  return (
+    <Router>
+      <Header />
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/offer-form" component={OfferForm} />
+        <Route path="/offer/:id" component={OfferDetails} />
+        <Route path="/:page?" component={Offers} />
+      </Switch>
+    </Router>
+  )
+}
 
 export { Routes as default };

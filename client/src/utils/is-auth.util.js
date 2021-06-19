@@ -5,7 +5,8 @@ const isAuthenticated = () => {
 
   try {
     const { exp, ...userData } = decode(token);
-    localStorage.setItem("user-payload", userData)
+    localStorage.setItem("user-payload", JSON.stringify(userData))
+
     if (Date.now() / 1000 > exp) {
       return false;
     }

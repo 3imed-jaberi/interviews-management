@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
     {
         $this->loadUsers($manager);
         $this->loadOffers($manager);
-        // $this->loadCandidatures($manager);
+        $this->loadCandidatures($manager);
     }
 
     public function loadOffers(ObjectManager $manager)
@@ -102,14 +102,14 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 100; $i++) {
             for ($j = 0; $j < rand(10, 20); $j++) {
                 $candidature = new Candidature();
-                // $candidature->setContent($this->faker->realText());
+                $candidature->setContent($this->faker->realText());
                 $candidature->setStatus('PENDING');
                 $candidature->setPublished($this->faker->dateTimeThisYear);
 
                 $authorReference = $this->getRandomUserReference($candidature);
 
                 $candidature->setAuthor($authorReference);
-                $candidature->setOffer($this->getReference("candidature_$i"));
+                $candidature->setOffer($this->getReference("offer_$i"));
 
                 $manager->persist($candidature);
             }

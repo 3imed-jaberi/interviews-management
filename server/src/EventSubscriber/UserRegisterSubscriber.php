@@ -37,7 +37,7 @@ class UserRegisterSubscriber implements EventSubscriberInterface
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->tokenGenerator = $tokenGenerator;
-        $this->mailer = $mailer;
+        // $this->mailer = $mailer;
     }
 
     public static function getSubscribedEvents()
@@ -69,6 +69,6 @@ class UserRegisterSubscriber implements EventSubscriberInterface
         );
 
         // Send e-mail here...
-        $this->mailer->sendConfirmationEmail($user);
+        // $this->mailer->sendConfirmationEmail($user);
     }
 }

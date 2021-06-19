@@ -44,6 +44,12 @@ use App\Controller\ResetPasswordAction;
  *         }
  *     },
  *     collectionOperations={
+ *         "get"={
+ *             "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *             "normalization_context"={
+ *                 "groups"={"get"}
+ *             }
+ *         },
  *         "post"={
  *             "denormalization_context"={
  *                 "groups"={"post"}

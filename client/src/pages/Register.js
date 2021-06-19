@@ -23,18 +23,16 @@ function Register() {
       lastname: ""
     },
     onSubmit: async values => {
-
+      console.log(values);
       if (values.check) {
         const [ok] = await register(values)
-
+        // console.log({ ok });
         if (ok) {
-          // TODO: redirect to login
           history.push('/login')
         }
       }
     }
   });
-
 
   return (
     <div className="card mt-3 mb-6 shadow-sm">
@@ -54,13 +52,13 @@ function Register() {
             value={values.password}
             onChange={handleChange}
           />
-          <Input
+          {/* <Input
             name="retypedPassword"
             label="Re-type password:"
             type="password"
             value={values.retypedPassword}
             onChange={handleChange}
-          />
+          /> */}
           <Input
             name="email"
             label="E-mail:"
