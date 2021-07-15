@@ -7,6 +7,14 @@ import { createOffer } from "../services/offer.service";
 function OfferForm() {
   const history = useHistory()
 
+  React.useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user-payload'))
+    const role = userData.roles[0]
+    if (role !== 'ROLE_ADMIN') {
+      history.push('/offers')
+    }
+  })
+
   const {
     values,
     handleChange,

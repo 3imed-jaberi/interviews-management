@@ -8,9 +8,13 @@ import { isAuthenticated } from '../utils/is-auth.util';
 
 function CandidatureListWrapper({ offerId }) {
   const [loading, setLoading] = useState(true)
+  const [role, setRole] = useState(null)
   const [candidatureList, setCandidatureList] = useState(null)
 
   useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user-payload'))
+    setRole(userData.roles[0])
+
     async function loadRelatedCandidatures() {
       const [ok, data] = await getCandidaturesRelatedToOfferBy(offerId)
       const [_, users] = await getUsers()
@@ -42,7 +46,10 @@ function CandidatureListWrapper({ offerId }) {
   return (
     <div>
       <CandidatureList candidatureList={candidatureList} />
-      {isAuthenticated() && <CandidatureForm offerId={offerId} />}
+      {
+        isAuthenticated() &&
+        (role === 'ROLE_ADMIN' || role === 'ROLE_CANDIDATE') &&
+        <CandidatureForm offerId={offerId} />}
     </div>
   )
 }

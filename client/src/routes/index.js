@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Header from '../components/Header'
@@ -17,9 +17,9 @@ const Routes = () => {
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/offer-form" component={OfferForm} />
-        <Route path="/offer/:id" component={OfferDetails} />
-        <Route path="/:page?" component={Offers} />
+        <ProtectedRoute path="/offer-form" component={OfferForm} />
+        <ProtectedRoute path="/offer/:id" component={OfferDetails} />
+        <ProtectedRoute path="/:page?" component={Offers} />
       </Switch>
     </Router>
   )
