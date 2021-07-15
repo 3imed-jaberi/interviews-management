@@ -26,7 +26,7 @@ export default function Header() {
 
     return (
       <span>
-        Hello {userData.username},&nbsp;
+        Hello {userData.username}, as {userData.roles[0]}&nbsp;
         <button className="btn btn-link btn-sm" href="#" onClick={logout}>Logout</button>
       </span>
     );

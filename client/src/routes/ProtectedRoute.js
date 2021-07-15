@@ -19,4 +19,4 @@ function ProtectedRoute({ component: Component, ...rest }) {
   )
 }
 
-export { ProtectedRoute as default }
+export { ProtectedRoute }

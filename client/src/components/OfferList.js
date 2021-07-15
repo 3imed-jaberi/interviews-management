@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Message } from "./Message";
 
 function OfferList({ offers }) {
-
   if (
     offers === null ||
     offers.length === 0
