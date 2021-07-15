@@ -7,6 +7,7 @@ import OfferDetails from '../pages/OfferDetails'
 import Offers from '../pages/Offers'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
+
 import { ProtectedRoute } from './ProtectedRoute'
 
 const Routes = () => {
@@ -23,6 +24,5 @@ const Routes = () => {
     </Router>
   )
 }
-
 
 export { Routes as default };

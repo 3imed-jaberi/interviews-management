@@ -6,7 +6,6 @@ import CandidatureListWrapper from "../components/CandidatureListWrapper";
 import { getOfferBy } from '../services/offer.service';
 
 function OfferDetails() {
-
   const [offer, setOffer] = useState(null)
 
   const { id } = useParams()

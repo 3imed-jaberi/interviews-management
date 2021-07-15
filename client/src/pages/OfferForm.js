@@ -32,7 +32,6 @@ function OfferForm() {
 
         // history.push(`/offer/${data.id}`)
       }
-
     }
   })
 
